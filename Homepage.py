@@ -1,3 +1,4 @@
+# Import Library
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -5,9 +6,8 @@ import matplotlib
 
 matplotlib.use("Agg")
 
-# DB
+# Database
 import sqlite3
-
 
 # Page Config
 st.set_page_config(
@@ -15,7 +15,7 @@ st.set_page_config(
     page_icon="📚",
 )
 
-
+# Connection to Database
 conn = sqlite3.connect("data.db")
 c = conn.cursor()
 
@@ -72,17 +72,16 @@ title_temp = """
     <p style="color:white;">{}</p>
     <p style="color:#67b0f6;">{}</p>
     <p style="color:white;font-weight:bold;font-size:18px;">Category: <span style="color:#67b0f6;">{}</span></p>
-    <p style="text-align:justify;">{}</p>
-    <p style="padding-bottom:10px;">Keywords: {}</p>
-    <a href="{}" target="_blank" style="color:#101414;background-color:#67b0f6;padding:8px 12px;border-radius:4px;">Journal Links</a>
+    <p style="text-align:justify;color:white;">{}</p>
+    <p style="padding-bottom:10px;color:white;">Keywords: {}</p>
+    <a href="{}" target="_blank" style="text-decoration: none;color:#101414;background-color:#67b0f6;padding:8px 12px;border-radius:4px;">Journal Links</a>
 </div>
 
 """
 
 
+# Main Function
 def main():
-    # Simple
-
     menu = [
         "Home",
         "Journal Category",
@@ -92,6 +91,7 @@ def main():
     ]
     choice = st.sidebar.selectbox("Menu", menu)
 
+    # Home Menu
     if choice == "Home":
         st.title("""Welcome to :blue[Bibrary]""")
         st.subheader(
@@ -121,6 +121,7 @@ def main():
                 unsafe_allow_html=True,
             )
 
+    # Journal Category Menu
     elif choice == "Journal Category":
         st.subheader("Journal Category")
         st.write(":blue[View Our Jurnal by Category]")
@@ -151,6 +152,7 @@ def main():
                 unsafe_allow_html=True,
             )
 
+    # Add Journal Menu
     elif choice == "Add Journal":
         st.subheader("Add Journal")
         st.write(":blue[Add Your Journal to Database]")
@@ -188,6 +190,7 @@ def main():
             )
             st.success("Post:{} saved".format(journal_title))
 
+    # Search Journal Menu
     elif choice == "Search Journal":
         category = [
             "Text Mining",
@@ -228,6 +231,7 @@ def main():
                 unsafe_allow_html=True,
             )
 
+    # Manage Journal Menu
     elif choice == "Manage Journal":
         st.subheader("Manage Journal")
         result = view_all_notes()
@@ -253,4 +257,5 @@ def main():
             st.warning("Deleted: '{}'".format(delete_journal_by_titles))
 
 
+# Running Program
 main()
